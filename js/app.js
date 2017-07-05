@@ -45,28 +45,31 @@ function initMap() {
     var loc = locations[i].position;
     var marker = new google.maps.Marker({
       position: loc,
+      animation: google.maps.Animation.DROP,
       title: locations[i].title,
+      placeId: locations[i].place_Id,
       map: map
     });
     markers.push(marker);
 
-    marker.addListener('click', function() {
-      populateInfoWindow(this, largeInfowindow);
-    })
+    map.addListener('center_changed', function() {
+      // 3 seconds after the center of the map has changed, pan back to the
+      // marker.
+      window.setTimeout(function() {
+        map.panTo(marker.getPosition());
+      }, 10000);
+    });
+
+    marker.addListener('mouseover', function() {
+      populateInfoWindow(this, largeInfowindow); // calling infowindow when hovered over marker
+    });
+    bindEvent(marker, loc, i,map,service);
 
   }
-  populateList(locations);
-
-  service.getDetails({
-    placeId: 'ChIJKf2vjtwXrjsRHtmrN4t2fZ4'
-  }, function(place, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      // Create marker
-      console.log("success");
-    }
-  });
-  console.log(service);
 }
+populateList(locations);
+
+
 
 
 
@@ -91,5 +94,24 @@ function populateList(locations) {
   }
 }
 
+function bindEvent(marker, pos, i,map,service) {
 
+  google.maps.event.addListener(marker,'click', function() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+    map.setZoom(13);
+    map.setCenter(marker.getPosition());
+    service.getDetails({
+      placeId: marker.placeId
+    }, function(place, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        // Create marker
+        console.log(place);
+      }
+    });
+  });
+}
 //ko.applyBindings(new AppModel());
