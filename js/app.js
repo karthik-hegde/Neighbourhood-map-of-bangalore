@@ -25,6 +25,7 @@ var locations = [{
     }
   }
 ]
+var map, service,largeInfowindow;
 
 function initMap() {
   var uluru = {
@@ -32,15 +33,17 @@ function initMap() {
     lng: 77.594563
   };
 
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
     center: uluru
   });
-  var largeInfowindow = new google.maps.InfoWindow();
+   largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
-  var service = new google.maps.places.PlacesService(map);
+  service = new google.maps.places.PlacesService(map);
+  populateMarker(locations);
+}
 
-
+function populateMarker(locations) {
   for (var i = 0; i < locations.length; i++) {
     var loc = locations[i].position;
     var marker = new google.maps.Marker({
@@ -48,6 +51,7 @@ function initMap() {
       animation: google.maps.Animation.DROP,
       title: locations[i].title,
       placeId: locations[i].place_Id,
+      show: true,
       map: map
     });
     markers.push(marker);
@@ -63,14 +67,22 @@ function initMap() {
     marker.addListener('mouseover', function() {
       populateInfoWindow(this, largeInfowindow); // calling infowindow when hovered over marker
     });
-    bindEvent(marker, loc, i,map,service);
+  //  bindEvent(marker, loc, i, map, service);
 
+  }
+}
+
+function showMarker() {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].show = "true";
   }
 }
 populateList(locations);
 
 
-
+function check(data) {
+  console.log(data);
+}
 
 
 
@@ -94,24 +106,72 @@ function populateList(locations) {
   }
 }
 
-function bindEvent(marker, pos, i,map,service) {
+function getDetails(location) {
 
-  google.maps.event.addListener(marker,'click', function() {
-    if (marker.getAnimation() !== null) {
-      marker.setAnimation(null);
-    } else {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
-    map.setZoom(13);
-    map.setCenter(marker.getPosition());
-    service.getDetails({
-      placeId: marker.placeId
-    }, function(place, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        // Create marker
-        console.log(place);
+  for (var i = 0; i < markers.length; i++) {
+    console.log(markers[i]);
+    if (markers[i].placeId == location.place_Id) {
+        var marker = markers[i];
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
       }
-    });
-  });
+      map.setZoom(13);
+      map.setCenter(marker.getPosition());
+      service.getDetails({
+        placeId: marker.placeId
+      }, function(place, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          // Create marker
+          console.log(place);
+
+        }
+      });
+      break;
+    }
+  }
 }
-//ko.applyBindings(new AppModel());
+var viewModel = function() {
+  var self = this;
+  this.markerArray = ko.observableArray([]);
+  this.searchQuery = ko.observable();
+
+  this.place_image = ko.observable();
+  this.place_name = ko.observable();
+  this.place_contact = ko.observable();
+  this.place_description = ko.observable();
+  this.place_rating = ko.observable();
+
+  this.apiError = ko.observable(false);
+  this.error_message = ko.observable();
+
+  this.searchResult = ko.computed(function() {
+    query = self.searchQuery();
+    if (!query) {
+      showMarker();
+      return locations;
+    } else {
+      removeMarker();
+      return ko.utils.arrayFilter(placesData, function(place) {
+        if (place.name.toLowerCase().indexOf(query) >= 0) {
+          return place;
+        }
+      });
+    }
+  });
+
+  /*    this.viewPlaceOnMap = function(place){
+        var coordinate = {lat: place.location.lat, lng: place.location.lng};
+        stopAnimation();
+        removeMarker();
+        startAnimation(coordinate);
+        showFourSquareData(place); */
+};
+
+
+
+
+
+
+ko.applyBindings(viewModel);

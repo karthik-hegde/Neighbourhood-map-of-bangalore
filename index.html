@@ -1,23 +1,40 @@
 <html>
-  <head>
-    <title>Neighbourhood map</title>
-    <link rel="stylesheet" href="css/main.css">
 
-  </head>
-  <body>
-    <div class="container">
+<head>
+  <title>Neighbourhood map</title>
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body>
+  <div class="container">
     <div id="list">
+      <div class="form-group">
+        <input type="text"  id="searchInputBox" placeholder="Enter your nearby search" data-bind="textInput: searchQuery">
+      </div>
+      <ul data-bind="foreach: searchResult">
+        <li><a href="#" data-bind="text: title, click: getDetails"></a></li>
+      </ul>
+
+      <div>
+          <h3 data-bind="text: place_name"></h3>
+          <img data-bind="attr: {src: place_image, alt: place_name}">
+          <p data-bind="text: place_contact"></p>
+          <p data-bind="text: place_description"></p>
+          <p data-bind="text: place_rating"></p>
+      </div>
+      <div class="row">
+          <h2 data-bind="text: error_message"></h2>
+      </div>
     </div>
+
     <div id="map"></div>
-</div>
+  </div>
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/knockout-3.4.2.js"></script>
+  <script src="js/app.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyDXK_YSfodYmXUMofc53no0J8FsWZQDXXw&callback=initMap"></script>
+  <img id="img" src="#">
+</body>
 
-
-
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/knockout-3.4.2.js"></script>
-      <script src="js/app.js"></script>
-    <script async defer
-   src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyDXK_YSfodYmXUMofc53no0J8FsWZQDXXw&callback=initMap"></script>
-
-  </body>
 </html>
