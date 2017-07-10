@@ -1,34 +1,74 @@
 #map {
-     height: 100%;
-     width: 100%;
-    }
-.container{
-  margin: auto;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
-#list{
-  float:left;
-  width:20%;
-}
-#map{
-  float:left;
-  width:80%;
 
+.container {
+  margin: auto;
+  width: 100%;
 }
-.button{
+
+#map {
+  float: left;
+  width: 100%;
+}
+
+.cust_button {
   display: block;
   margin: 0 auto;
-  width:50%;
+  width: 100%;
   height: 4%;
   background-color: white;
-  margin-bottom: 5px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-   transition-duration: 0.4s;
-
-
+  margin-bottom: 10%;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s;
+  -webkit-box-shadow: 11px 10px 23px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 11px 10px 23px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 11px 10px 23px -1px rgba(0, 0, 0, 0.75);
 }
-.button:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    background-color: #4CAF50; /* Green */
-    color: white
+
+.cust_button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  background-color: #4DB6AC;
+  /*material green */
+  color: white
+}
+
+#details {
+  text-align: center;
+}
+
+#searchInputBox {
+  padding: 8px 12px;
+  border-radius: 0px;
+  border-width: 0px;
+  color: rgb(119, 119, 119);
+  background-color: #E8EAF6;
+  border-color: rgb(231, 231, 231);
+  box-shadow: none;
+  outline: none;
+  margin-bottom: 10%;
+  -webkit-box-shadow: 26px 20px 27px -15px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 26px 20px 27px -15px rgba(0, 0, 0, 0.75);
+  box-shadow: 26px 20px 27px -15px rgba(0, 0, 0, 0.75);
+}
+
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  background-color: #FAFAFA;
+}
+
+
+/* On mouse-over, add a deeper shadow */
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+  text-align: center;
+  width: 100%;
 }
