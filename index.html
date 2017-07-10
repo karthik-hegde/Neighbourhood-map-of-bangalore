@@ -17,9 +17,7 @@
         </nav>
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
-            <div>
               <input type="text" id="searchInputBox" class="form-control" placeholder="Enter place" data-bind="textInput: searchQuery">
-            </div>
             <div data-bind="foreach: searchResult">
               <button class='cust_button' data-bind="text: title, click: getDetails"></button>
             </div>

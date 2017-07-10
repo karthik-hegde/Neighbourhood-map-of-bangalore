@@ -26,6 +26,7 @@
   -webkit-box-shadow: 11px 10px 23px -1px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 11px 10px 23px -1px rgba(0, 0, 0, 0.75);
   box-shadow: 11px 10px 23px -1px rgba(0, 0, 0, 0.75);
+  font-size : 90%;
 }
 
 .cust_button:hover {
