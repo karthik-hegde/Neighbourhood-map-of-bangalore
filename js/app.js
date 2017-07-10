@@ -101,7 +101,7 @@ function getDetails(location) {
           place_description(place.types[0]);
           if (place.types[0] != 'restaurant') {
             var title = encodeURIComponent((marker.title).trim())
-            var wikiurl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + title + "&format=json&limit=1&callback=wikiCallback";
+            var wikiurl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + title + "&format=json&limit=1&callback=wikiCallback";
             //obtain description of the place using wiki api
             $.ajax({
               url: wikiurl,
