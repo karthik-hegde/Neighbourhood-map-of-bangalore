@@ -1,3 +1,4 @@
+
 //initializing map
 function initMap() {
   var uluru = {
@@ -36,7 +37,7 @@ function populateMarker(locations) {
 function bindEvent(marker) {
   marker.addListener('click', function() {
     getDetails(marker);
-  })
+  });
 }
 //display all markers
 function showAllMarker() {
@@ -60,6 +61,12 @@ function removeMarker(place) {
     }
   }
 }
+
+function setTimer(marker){
+  setTimeout(function() {
+    marker.setAnimation(null);
+  }, 3500);
+}
 //display the data passed to this function at a given marker in a info window
 function populateInfoWindow(data, marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
@@ -75,7 +82,6 @@ function populateInfoWindow(data, marker, infowindow) {
 }
 // obtain details from the google places api and wiki api
 function getDetails(location) {
-  console.log(location)
   for (var i = 0; i < markers.length; i++) {
     if (markers[i].placeId == location.placeId) {
       var marker = markers[i];
@@ -84,9 +90,7 @@ function getDetails(location) {
       } else {
         marker.setAnimation(google.maps.Animation.BOUNCE);
         //the animation stops after 3.5 seconds
-        setTimeout(function() {
-          marker.setAnimation(null);
-        }, 3500)
+        setTimer(marker);
       }
       map.setZoom(13);
       map.setCenter(marker.getPosition());
@@ -100,7 +104,7 @@ function getDetails(location) {
           place_name(place.name);
           place_description(place.types[0]);
           if (place.types[0] != 'restaurant') {
-            var title = encodeURIComponent((marker.title).trim())
+            var title = encodeURIComponent((marker.title).trim());
             var wikiurl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + title + "&format=json&limit=1&callback=wikiCallback";
             //obtain description of the place using wiki api
             $.ajax({
@@ -127,7 +131,7 @@ function getDetails(location) {
             place_contact(null);
           }
         } else {
-          error_message("could not fetch data from googlePlace service")
+          error_message("could not fetch data from googlePlace service");
         }
       });
       break;
