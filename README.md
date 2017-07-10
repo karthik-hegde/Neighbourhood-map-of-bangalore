@@ -1,4 +1,4 @@
-# neighbourhood map #
+# Neighbourhood Map #
 
 A map of bangalore pointing to some of the important places. The map uses google map API service,googleplaces and wiki API.
 
