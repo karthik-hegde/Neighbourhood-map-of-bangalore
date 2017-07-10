@@ -80,12 +80,16 @@ function populateInfoWindow(data, marker, infowindow) {
     });
   }
 }
+
 // obtain details from the google places api and wiki api
 function getDetails(location) {
+  var marker;
   for (var i = 0; i < markers.length; i++) {
     if (markers[i].placeId == location.placeId) {
-      var marker = markers[i];
-      if (marker.getAnimation() !== null) {
+      marker = markers[i];break;
+    }
+  }
+  if (marker.getAnimation() !== null) {
         marker.setAnimation(null);
       } else {
         marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -98,7 +102,6 @@ function getDetails(location) {
         placeId: marker.placeId
       }, function(place, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log(place);
           // if data is obtained display using observables
           populateInfoWindow(place.formatted_address, marker, largeInfowindow);
           place_name(place.name);
@@ -134,10 +137,9 @@ function getDetails(location) {
           error_message("could not fetch data from googlePlace service");
         }
       });
-      break;
+
     }
-  }
-}
+
 
 //view model
 var viewModel = function() {
