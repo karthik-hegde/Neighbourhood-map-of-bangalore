@@ -76,7 +76,7 @@ function populateInfoWindow(data, marker, infowindow) {
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
-      infowindow.setMarker = null;
+      infowindow.marker = null;
     });
   }
 }
@@ -112,10 +112,15 @@ function getDetails(location) {
             //obtain description of the place using wiki api
             $.ajax({
               url: wikiurl,
+              timeout : 5000,
               dataType: "jsonp",
               success: function(data) {
-                console.log(data);
                 place_description(data[2]);
+              },
+              error: function(x,t,m){
+                if(t==="timeout"){
+                  error_message("wiki API is not responding.try again later");
+                }
               }
             });
           }
@@ -139,7 +144,9 @@ function getDetails(location) {
       });
 
     }
-
+function googleError(){
+  error_message("Unable to load google maps.Try again later");
+}
 
 //view model
 var viewModel = function() {
@@ -158,7 +165,7 @@ var viewModel = function() {
       return locations;
     } else {
       return ko.utils.arrayFilter(locations, function(place) {
-        if (place.title.toLowerCase().indexOf(query) >= 0) {
+        if (place.title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
           return place;
         }
         removeMarker(place);
